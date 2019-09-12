@@ -2,9 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/LoginCss.css">
     <title>Registrieren</title>
 </head>
-<body>
 
+<body class="text-center">
+<form class="form-signin">
+    <!--    Hier kann ein Bild/Logo hinzugefügt werden-->
+    <!--    <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">-->
+    <h1 class="h3 mb-3 font-weight-normal">Neuen Benutzer anlegen</h1>
+    <p class="registerHeading">Benutzernamen festlegen</p>
+    <label for="inputEmail" class="sr-only">Benutzername</label>
+    <input type="email" id="inputUsername" class="form-control" placeholder="Benutzernamen" required autofocus>
+
+    <p class="registerHeading">Vornamen angeben</p>
+    <label for="inputEmail" class="sr-only">Vornamen</label>
+    <input type="email" id="inputFirstName" class="form-control" placeholder="Vornamen" required>
+
+    <p class="registerHeading">Nachnamen angeben</p>
+    <label for="inputEmail" class="sr-only">Nachnamen</label>
+    <input type="email" id="inputLastName" class="form-control" placeholder="Nachnamen" required>
+
+    <p class="registerHeading">E-Mail angeben</p>
+    <label for="inputEmail" class="sr-only">E-Mail</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="E-Mail" required>
+
+    <p class="registerHeading">Passwort festlegen</p>
+    <label for="inputPassword" class="sr-only">Passwort</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Passwort">
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Registrieren</button>
+</form>
 </body>
 </html>
