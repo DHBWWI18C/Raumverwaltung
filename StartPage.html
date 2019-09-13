@@ -1,10 +1,68 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
     <title>Startseite</title>
 </head>
 <body>
+
+    <h1>Raumverwaltung</h1>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+        <a class="navbar-brand" href="#">Home</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Meine Buchungen</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="jumbotron">
+        <h2>Übersicht</h2>
+        <p>In der Übersicht werden alle Räume angezeigt.</p>
+    </div>
+    <div class="container">
+        <!--Hier kommt das Suchen-Form rein-->
+    </div>
+
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Raumname</th>
+                <th scope="col">Zusätzliche Information</th>
+                <th scope="col">Verpflegung buchbar</th>
+                <th scope="col">Buchen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">A.01</th>
+                <td>Büro Herr Klein</td>
+                <td></td>
+                <td>Nein</td>
+                <td><button type="button" class="btn btn-outline-primary">Buchen</button></td>
+            </tr>
+            <tr>
+                <th scope="row">B.21</th>
+                <td>Großer Besprechungsraum 1</td>
+                <td></td>
+                <td>Ja</td>
+                <td><button type="button" class="btn btn-outline-primary">Buchen</button></td>
+            </tr>
+            <tr>
+                <th scope="row">B.23</th>
+                <td>Großer Besprechungsraum 2</td>
+                <td></td>
+                <td>Ja</td>
+                <td><button type="button" class="btn btn-outline-primary">Buchen</button></td>
+            </tr>
+        </tbody>
+    </table>
 
 </body>
 </html>
