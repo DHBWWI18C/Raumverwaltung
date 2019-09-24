@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <title>Detailansicht Buchung</title>
+</head>
+<body>
+<script type="text/javascript">
+    function enableAdmin() {
+        var test = document.getElementById('adminOnly');
+        test.disabled = false;
+    }
+
+    function disableAdmin() {
+        var test = document.getElementById('adminOnly');
+        test.disabled = true;
+    }
+</script>
+    <h1>Buchung</h1>
+    <div class="singlePageContainer container-fluid">
+        <form>
+            <fieldset id="notChangeable" disabled>
+                <div class="form-group row">
+                    <label for="bookingNumber" class="col-sm-2 col-form-label">Buchungsnummer</label>
+                    <div class="col-sm-5">
+                        <input type="text" id="bookingNumber" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="user" class="col-sm-2 control-label">Miete</label>
+                    <div class="col-sm-5">
+                        <input type="text" id="user" class="form-control">
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="adminOnly" disabled>
+                <div class="form-group row">
+                    <label for="roomnumber" class="col-sm-2 control-label">Raumnummer</label>
+                    <div class="col-sm-5">
+                        <input type="text" id="roomnumber" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="period" class="col-sm-2 control-label">Zeitraum</label>
+                    <div class="col-sm-5">
+                        <input type="date" id="period" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="price" class="col-sm-2 control-label">Preis</label>
+                    <div class="col-sm-5">
+                        <input type="text" id="price" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2">Verpflegung</div>
+                    <div class="col-sm-5">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="foodNeeded"> gewünscht
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-2">WLAN</div>
+                    <div class="col-sm-5">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="wifiNeeded"> gewünscht
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="state" class="col-sm-2 control-label">Status</label>
+                    <div class="col-sm-5">
+                        <select  class="adminOnly" id="state">
+                            <option>Reserviert</option>
+                            <option>Bezahlt</option>
+                            <option>Abgeschlossen</option>
+                            <option>Storniert</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group row">
+                <div class="col-sm-2">Änderungen</div>
+                <div class="col-sm-5">
+                    <button type="submit" class="btn btn-primary" >speichern</button>
+                    <button type="reset" class="btn btn-primary" >verwerfen</button>
+                </div>
+            </div>
+        </form>
+        <button onclick="enableAdmin()">AdminView</button>
+        <button onclick="disableAdmin()">Pöbelansicht</button>
+    </div>
+</body>
+</html>
