@@ -16,7 +16,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/auth")
-	public boolean checkUserLoginData(@RequestParam(value = "name") String name, @RequestParam(value = "password") String password, HttpSession session) {
+	public boolean checkUserLoginData(@RequestParam(value = "username") String name, @RequestParam(value = "password") String password, HttpSession session) {
 		User user = User.getUserByUserName(name);
 		System.out.println("Anfrage:" +
 				"\nUser: " + user +

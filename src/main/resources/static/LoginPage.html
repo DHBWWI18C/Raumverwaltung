@@ -44,7 +44,7 @@
         function login() {
             var userName = document.getElementById('inputUsername').value;
             var password = document.getElementById('inputPassword').value;
-            var callurl = rootURL + "/auth" + "?name=" + userName + "&password=" + password;
+            var callurl = rootURL + "/auth" + "?username=" + userName + "&password=" + password;
             console.log(callurl);
             $.getJSON(callurl, {
                 format: "json"
