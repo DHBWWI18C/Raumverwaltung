@@ -10,7 +10,8 @@ public class Connect {
 	private static Connection connect() {
 		if (c == null){
 			try {
-				String url = "jdbc:sqlite:C:\\Users\\hendrik.strenger\\Desktop\\Raumverwaltung_Back\\src\\main\\java\\com\\Mosbach\\Raumverwaltung\\ProjectDB";
+//				String url = "jdbc:sqlite:C:\\Users\\hendrik.strenger\\Desktop\\Raumverwaltung_Back\\src\\main\\java\\com\\Mosbach\\Raumverwaltung\\ProjectDB";
+				String url = "jdbc:sqlite:src\\main\\java\\com\\Mosbach\\Raumverwaltung\\ProjectDB";
 				c = DriverManager.getConnection(url);
 //			System.out.println("Connection to SQLite has been established.");
 			} catch (SQLException e) {
