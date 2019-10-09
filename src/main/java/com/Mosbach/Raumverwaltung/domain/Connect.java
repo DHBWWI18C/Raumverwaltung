@@ -4,9 +4,7 @@ import java.sql.*;
 
 public class Connect {
 	private static Connection c;
-	/**
-	 * Connect to a sample database
-	 */
+
 	private static Connection connect() {
 		if (c == null){
 			try {

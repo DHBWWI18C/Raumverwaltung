@@ -1,7 +1,11 @@
 package com.Mosbach.Raumverwaltung.domain;
 
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 	private int id;
@@ -33,7 +37,7 @@ public class User {
 			return null;
 		}
 		if (getUserByMail(mail) != null){
-			System.out.println("Username schon vergeben");
+			System.out.println("Mail schon vergeben");
 			return null;
 		}
 		String sql = "INSERT into users (firstName, secondName, email, userName, admin, password)" +
@@ -46,6 +50,11 @@ public class User {
 		
 		Connect.getResultSet(sql);
 		return getUserByUserName(userName);
+	}
+	
+	public static List<User> getUsers(){
+		String sql = "SELECT * from users ;";
+		return getUsers(sql);
 	}
 	
 	public static User getUserById(int id){
@@ -64,10 +73,25 @@ public class User {
 	}
 	
 	private static User getUser(String sql){
+		return buildUserFromDB(Connect.getResultSet(sql));
+	}
+	
+	private static List<User> getUsers(String sql){
+		List<User> users = new ArrayList<>();
+		ResultSet resultSet = Connect.getResultSet(sql);
+		try{
+			while (resultSet.next()){
+				users.add(buildUserFromDB(resultSet));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return users;
+	}
+	
+	private static User buildUserFromDB(ResultSet resultSet){
 		User user = null;
-		
 		try {
-			ResultSet resultSet = Connect.getResultSet(sql);
 			user = new User(
 					resultSet.getInt(1),
 					resultSet.getString(2),
@@ -80,6 +104,19 @@ public class User {
 			System.out.println(e.getMessage());
 		}
 		return user;
+	}
+	
+	public static User updateUser(int id, String firstName, String secondName, String mail, String userName, boolean admin, String password){
+		String sql = "UPDATE users " +
+				"SET firstName =  '" + firstName +
+				"', secondName = '" + secondName +
+				"', email = '" + mail +
+				"', userName = '" + userName +
+				"', admin = " + IntBoolHelper.boolToInt(admin) +
+				", password = '" + password +
+				"' WHERE id = " + id + ";";
+		Connect.getResultSet(sql);
+		return getUserById(id);
 	}
 	
 	
