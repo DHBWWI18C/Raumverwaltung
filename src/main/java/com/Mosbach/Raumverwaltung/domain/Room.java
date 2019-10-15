@@ -2,6 +2,8 @@ package com.Mosbach.Raumverwaltung.domain;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Room {
 	private int id;
@@ -46,13 +48,29 @@ public class Room {
 		return getRoom(sql);
 	}
 	
-	private static Room getRoom(String sql){
-		Room room = null;
-		
+	public static List<Room> getAllRooms(){
+		String sql = "SELECT * from rooms ;";
+		return getRooms(sql);
+	}
+	
+	private static List<Room> getRooms(String sql){
+		List<Room> rooms = new ArrayList<>();
+		ResultSet resultSet = Connect.getResultSet(sql);
 		try {
-			ResultSet resultSet = Connect.getResultSet(sql);
+			while (resultSet.next()){
+				rooms.add(buildRoomFromResultSet(resultSet));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return rooms;
+	}
+	
+	private static Room buildRoomFromResultSet(ResultSet resultSet){
+		Room room = null;
+		try {
 			room = new Room(
-					
 					resultSet.getInt(1),
 					Roomsize.getRoomsizeById(resultSet.getInt(2)),
 					IntBoolHelper.intToBool(resultSet.getInt(3)),
@@ -60,9 +78,14 @@ public class Room {
 					resultSet.getString(5),
 					resultSet.getString(6));
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return room;
+	}
+	
+	private static Room getRoom(String sql){
+		Room room = null;
+		return buildRoomFromResultSet(Connect.getResultSet(sql));
 	}
 	
 	@Override

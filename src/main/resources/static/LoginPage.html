@@ -35,7 +35,7 @@
                 <a href="RegisterPage.html">Neuen Benutzer anlegen</a>
             </div>
         </form>
-        <button class="btn btn-lg btn-primary btn-block" onclick="login()">Anmelden</button>
+        <button class="btn btn-lg btn-primary btn-block mb-3" onclick="login()">Anmelden</button>
         <p>Ergebnis: </p>
         <div id="testfield"></div>
     </div>
@@ -44,15 +44,16 @@
         function login() {
             var userName = document.getElementById('inputUsername').value;
             var password = document.getElementById('inputPassword').value;
-            var callurl = rootURL + "/auth" + "?username=" + userName + "&password=" + password;
+            var callurl = rootURL + "/auth" + "?userName=" + userName + "&password=" + password;
             console.log(callurl);
             $.getJSON(callurl, {
                 format: "json"
             }).done(function (data){
                 if (data == true){
-                    window.location = rootURL + "/RegisterPage.html"
+                    $('#testfield').html("Login erfolgreich!")
+
                 } else {
-                    $('#testfield').html("Login fehlgeschlagen")
+                    $('#testfield').html("Login fehlgeschlagen!")
                 }
             });
         }

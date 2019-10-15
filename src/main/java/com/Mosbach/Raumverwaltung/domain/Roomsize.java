@@ -38,4 +38,12 @@ public class Roomsize {
 				", size='" + size + '\'' +
 				'}';
 	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public String getSize() {
+		return size;
+	}
 }

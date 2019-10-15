@@ -1,5 +1,7 @@
 package com.Mosbach.Raumverwaltung.domain;
 
+import com.Mosbach.Raumverwaltung.controller.RoomsController;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -34,7 +36,7 @@ public class Booking {
 		if (User.getUserById(user.getId()) == null) return null;
 		if (Room.getRoomById(room.getId()) == null) return null;
 		if (Status.getStatusById(status.getId()) == null) return null;
-		if (checkAvailability(room, startDate, endDate)) return null;
+		if (RoomsController.checkAvailability(room, startDate, endDate)) return null;
 		String sql = "INSERT into bookings (user, room, price, wifi, food, status)" +
 				"VALUES (" + user.getId() + ", " +
 				"" + room.getId()  + ", " +
@@ -49,27 +51,6 @@ public class Booking {
 		return getBooking("SELECT * FROM bookings " +
 						"WHERE id = (SELECT MAX(id) " +
 						"FROM bookings);");
-	}
-	
-	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
-		List<LocalDate> checkDays = new ArrayList<>();//Tage zwischen startDate und endDate
-		while (startDate.compareTo(endDate) < 1){
-			checkDays.add(startDate);
-			startDate = startDate.plusDays(1);
-		}
-		
-		String sql = "SELECT * from bookings WHERE room = " + room.getId() + ";";
-		List<Booking> bookingList = getBookings(sql);
-		for (Booking booking: bookingList) {
-			LocalDate controllDate = booking.getStartDate();
-			while (controllDate.compareTo(booking.getEndDate()) < 1){
-				if (checkDays.contains(controllDate)) return false;
-				controllDate = controllDate.plusDays(1);
-			}
-			if (checkDays.contains(booking.getEndDate())) return false;
-		}
-		
-		return true;
 	}
 	
 	
@@ -98,7 +79,7 @@ public class Booking {
 		return booking;
 	}
 	
-	private static List<Booking> getBookings(String sql){
+	public static List<Booking> getBookings(String sql){
 		List<Booking> bookingList = new ArrayList<>();
 		Booking booking = null;
 		try {

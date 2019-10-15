@@ -51,7 +51,7 @@ public class UserController {
 	
 //	READ ALL
 	@RequestMapping(method = RequestMethod.GET, path = "/getUsers")
-	public List<User> getUsers(@RequestParam(value = "id", defaultValue = "1") int id) {
+	public List<User> getUsers() {
 		return User.getUsers();
 	}
 	

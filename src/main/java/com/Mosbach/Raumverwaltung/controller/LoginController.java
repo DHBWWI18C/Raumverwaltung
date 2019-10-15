@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class LoginController {
 	
-	@RequestMapping(method = RequestMethod.POST, path = "/auth")
+	@RequestMapping(method = RequestMethod.GET, path = "/auth")
 	public boolean checkUserLoginData(@RequestParam(value = "userName", required = true) String name,
 									  @RequestParam(value = "password", required = true) String password,
 									  HttpSession session) {
