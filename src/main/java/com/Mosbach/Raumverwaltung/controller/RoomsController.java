@@ -34,19 +34,16 @@ public class RoomsController {
 		
 //		Standard Localdate Aufbau: 2001-01-01
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-		if (startDate != null) {
-			startLocalDate = LocalDate.parse(startDate, formatter);
-		}
-		if (endDate != null) {
-			endLocalDate = LocalDate.parse(endDate, formatter);
-		}
+		if (startDate != null) startLocalDate = LocalDate.parse(startDate, formatter);
+		if (endDate != null) endLocalDate = LocalDate.parse(endDate, formatter);
 		
+//		Es wird ein start und endDate benötigt, wenn eines null ist wird der Wert des anderen hierfür übernommen
 		if (startLocalDate != null || endLocalDate != null){
 			if (startLocalDate == null) startLocalDate = endLocalDate;
 			if (endLocalDate == null) endLocalDate = startLocalDate;
 		}
 		
-		for (Room room: rooms){
+		for (Room room : rooms) {
 			if ((roomSize == null || Roomsize.getRoomsizeById(roomSize).equals(room.getRoomsize())) &&
 					(beamer == null || IntBoolHelper.intToBool(beamer) == room.isBeamerAvailable()) &&
 					(priceMax == null || priceMax >= room.getPrice()) &&
