@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class RoomsController {
 	
 //	READ ROOMS
 	@RequestMapping(method = RequestMethod.GET, path = "getRooms")
-	public List<Room> getRooms(@RequestParam(value = "roomSize", required = false, defaultValue = "0") int roomSize,
-							   @RequestParam(value = "beamer", required = false, defaultValue = "3") int beamer,
+	public List<Room> getRooms(@RequestParam(value = "roomSize", required = false) Integer roomSize,
+							   @RequestParam(value = "beamer", required = false) Integer beamer,
 							   @RequestParam(value = "priceMax", required = false) Integer priceMax,
 							   @RequestParam(value = "startDate", required = false) String startDate,
 							   @RequestParam(value = "endDate", required = false) String endDate){
@@ -31,31 +32,34 @@ public class RoomsController {
 		LocalDate startLocalDate = null;
 		LocalDate endLocalDate = null;
 		
-//		Standard Localdate Aufbau: 01-01-2001
-//		Der wird ein replace durchgeführt weil das Parsen so einfacher ist
+//		Standard Localdate Aufbau: 2001-01-01
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 		if (startDate != null) {
-			startLocalDate = LocalDate.parse(startDate.replace(".", "-"));
+			startLocalDate = LocalDate.parse(startDate, formatter);
 		}
 		if (endDate != null) {
-			endLocalDate = LocalDate.parse(endDate.replace(".", "-"));
+			endLocalDate = LocalDate.parse(endDate, formatter);
 		}
 		
+		if (startLocalDate != null || endLocalDate != null){
+			if (startLocalDate == null) startLocalDate = endLocalDate;
+			if (endLocalDate == null) endLocalDate = startLocalDate;
+		}
 		
 		for (Room room: rooms){
-			if (Roomsize.getRoomsizeById(roomSize) == room.getRoomsize()) filterdRooms.add(room); //todo: funktioniert nicht
-			if (IntBoolHelper.intToBool(beamer) == room.isBeamerAvailable()) filterdRooms.add(room);
-			if (priceMax != null && priceMax > room.getPrice()) filterdRooms.add(room);
-			if (startDate !=null || endDate != null){
-				if (startDate == null) startDate = endDate;
-				if (endDate == null) endDate = startDate;
-				
-				if (checkAvailability(room, startLocalDate, endLocalDate)) filterdRooms.add(room);
+			if ((roomSize == null || Roomsize.getRoomsizeById(roomSize).equals(room.getRoomsize())) &&
+					(beamer == null || IntBoolHelper.intToBool(beamer) == room.isBeamerAvailable()) &&
+					(priceMax == null || priceMax >= room.getPrice()) &&
+					(checkAvailability(room, startLocalDate, endLocalDate))) {
+				filterdRooms.add(room);
 			}
 		}
 		return filterdRooms;
 	}
 	
 	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
+//		todo: funktioniert nicht wenn endDate vor startDate liegt
+		if (startDate == null && endDate == null) return true;
 		List<LocalDate> checkDays = new ArrayList<>();//Tage zwischen startDate und endDate
 		while (startDate.compareTo(endDate) < 1){
 			checkDays.add(startDate);

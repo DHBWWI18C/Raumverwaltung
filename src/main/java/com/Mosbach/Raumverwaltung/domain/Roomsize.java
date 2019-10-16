@@ -2,6 +2,7 @@ package com.Mosbach.Raumverwaltung.domain;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class Roomsize {
 	private int id;
@@ -46,4 +47,14 @@ public class Roomsize {
 	public String getSize() {
 		return size;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Roomsize)) return false;
+		Roomsize roomsize = (Roomsize) o;
+		return id == roomsize.id &&
+				size.equals(roomsize.size);
+	}
+	
 }
