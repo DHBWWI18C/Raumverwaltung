@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class RoomsController {
+public class RoomController {
 
 //	READ
 	@RequestMapping(method = RequestMethod.GET, path = "/getRoom")

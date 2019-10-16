@@ -1,6 +1,6 @@
 package com.Mosbach.Raumverwaltung.domain;
 
-import com.Mosbach.Raumverwaltung.controller.RoomsController;
+import com.Mosbach.Raumverwaltung.controller.RoomController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,7 +36,7 @@ public class Booking {
 		if (User.getUserById(user.getId()) == null) return null;
 		if (Room.getRoomById(room.getId()) == null) return null;
 		if (Status.getStatusById(status.getId()) == null) return null;
-		if (RoomsController.checkAvailability(room, startDate, endDate)) return null;
+		if (RoomController.checkAvailability(room, startDate, endDate)) return null;
 		String sql = "INSERT into bookings (user, room, price, wifi, food, status)" +
 				"VALUES (" + user.getId() + ", " +
 				"" + room.getId()  + ", " +
