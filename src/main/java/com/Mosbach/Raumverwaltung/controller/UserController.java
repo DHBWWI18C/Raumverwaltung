@@ -12,18 +12,6 @@ import java.util.List;
 
 @RestController
 public class UserController {
-
-//	todo: Allgemeine Absprache: Wo ist es sinnvoller die Daten zu validieren?
-//	Aktuell wird im Controller über required Felder definiert was zwingend benötigt wird
-//	Die Prüfung ob korrekte Fremdschlüssel übergeben wurde findet aber dann wieder in den Domain Klassen statt
-	
-	/*
-	Es wird CRUD implementiert
-	Ausname: Delete wird weggelassen
-	Unsicherheit ob über Datenbankfeld oder vollständige Löschung
-	bei vollständiger Löschung würden die Fremdschlüssel verloren gehen
-	Kompromiss: Alle Daten (außer der ID) werden überschrieben mit DELETED
-	 */
 	
 //	CREATE
 	@RequestMapping(method = RequestMethod.POST, path = "/createUser")

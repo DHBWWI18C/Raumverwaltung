@@ -2,6 +2,7 @@ package com.Mosbach.Raumverwaltung.DAO;
 
 import com.Mosbach.Raumverwaltung.Helper.Connect;
 import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
+import com.Mosbach.Raumverwaltung.controller.BookingController;
 import com.Mosbach.Raumverwaltung.controller.RoomController;
 import com.Mosbach.Raumverwaltung.domain.*;
 
@@ -41,7 +42,7 @@ public class BookingDao {
 		if (UserDao.getUserById(user.getId()) == null) return null;
 		if (RoomDao.getRoomById(room.getId()) == null) return null;
 		if (StatusDao.getStatusById(status.getId()) == null) return null;
-		if (RoomController.checkAvailability(room, startDate, endDate)) return null;
+		if (BookingController.checkAvailability(room, startDate, endDate)) return null;
 		String sql = "INSERT into bookings (user, room, price, wifi, food, status)" +
 				"VALUES (" + user.getId() + ", " +
 				"" + room.getId()  + ", " +

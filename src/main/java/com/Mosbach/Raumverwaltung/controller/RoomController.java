@@ -16,6 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.Mosbach.Raumverwaltung.controller.BookingController.checkAvailability;
+
 @RestController
 public class RoomController {
 
@@ -85,50 +87,20 @@ public class RoomController {
 		Room oldRoom = RoomDao.getRoomById(id);
 		boolean beamerAvailableBool;
 		
+//		Die Update Methode erwartet alle Parameter, wenn nicht alle Parameter neu verändert werden sollen werden die Parameter von vorher gezogen und nochmals neu gesetzt
 		if (beamerAvailable != null) beamerAvailableBool = IntBoolHelper.intToBool(beamerAvailable);
 		else beamerAvailableBool = oldRoom.getBeamerAvailable();
 		
 		Roomsize roomsize = RoomsizeDao.getRoomsizeById(sizeId);
 		if (roomsize == null) roomsize = oldRoom.getRoomsize();
-		
 		if (price == null) price = oldRoom.getPrice();
-		
 		if (info == null) info = oldRoom.getInfo();
-		
 		if (name != null){
 			if (RoomDao.getRoomByName(name) != null) return null;
 		} else name = oldRoom.getName();
 		
 		return RoomDao.updateRoom(id, roomsize, beamerAvailableBool, price, info, name);
 	}
-	
-	
-	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
-//		todo: funktioniert nicht wenn endDate vor startDate liegt
-		if (startDate == null && endDate == null) return true;
-		List<LocalDate> checkDays = new ArrayList<>();//Tage zwischen startDate und endDate
-		while (startDate.compareTo(endDate) < 1){
-			checkDays.add(startDate);
-			startDate = startDate.plusDays(1);
-		}
-		
-		String sql = "SELECT * from bookings WHERE room = " + room.getId() + ";";
-		List<Booking> bookingList = BookingDao.getBookings(sql);
-		for (Booking booking: bookingList) {
-			LocalDate controllDate = booking.getStartDate();
-			while (controllDate.compareTo(booking.getEndDate()) < 1){
-				if (checkDays.contains(controllDate)) return false;
-				controllDate = controllDate.plusDays(1);
-			}
-			if (checkDays.contains(booking.getEndDate())) return false;
-		}
-		
-		return true;
-	}
-	
-	
-	
-	
 	
 }
 
