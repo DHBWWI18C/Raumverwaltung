@@ -1,4 +1,4 @@
-package com.Mosbach.Raumverwaltung.domain;
+package com.Mosbach.Raumverwaltung.Helper;
 
 public class IntBoolHelper {
 	public static boolean intToBool(int intValue){

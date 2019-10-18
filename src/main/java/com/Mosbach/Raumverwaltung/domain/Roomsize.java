@@ -1,5 +1,7 @@
 package com.Mosbach.Raumverwaltung.domain;
 
+import com.Mosbach.Raumverwaltung.Helper.Connect;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -8,25 +10,18 @@ public class Roomsize {
 	private int id;
 	private String size;
 	
-	public Roomsize(int id, String size) {
+	private Roomsize(int id, String size) {
 		this.id = id;
 		this.size = size;
 	}
 	
-	public static Roomsize getRoomsizeById(int id){
-		String sql = "SELECT * from roomsizes WHERE id = " + id + ";";
-		return getRoomsize(sql);
-	}
-	
-	private static Roomsize getRoomsize(String sql){
+	public static Roomsize buildRoomsizeFromResultSet(ResultSet resultSet){
 		Roomsize roomsize = null;
-		
 		try {
-			ResultSet resultSet = Connect.getResultSet(sql);
 			roomsize = new Roomsize(
 					resultSet.getInt(1),
 					resultSet.getString(2));
-			} catch (SQLException e) {
+		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		return roomsize;

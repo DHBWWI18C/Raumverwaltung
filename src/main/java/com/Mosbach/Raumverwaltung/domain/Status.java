@@ -1,5 +1,8 @@
 package com.Mosbach.Raumverwaltung.domain;
 
+import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
+import com.Mosbach.Raumverwaltung.Helper.Connect;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -7,21 +10,14 @@ public class Status {
 	private int id;
 	private String title;
 	
-	public Status(int id, String title) {
+	private Status(int id, String title) {
 		this.id = id;
 		this.title = title;
 	}
 	
-	public static Status getStatusById(int id){
-		String sql = "SELECT * from status WHERE id = " + id + ";";
-		return getStatus(sql);
-	}
-	
-	private static Status getStatus(String sql){
+	public static Status buildStatusFromResultSet(ResultSet resultSet){
 		Status status = null;
-		
 		try {
-			ResultSet resultSet = Connect.getResultSet(sql);
 			status = new Status(
 					resultSet.getInt(1),
 					resultSet.getString(2));

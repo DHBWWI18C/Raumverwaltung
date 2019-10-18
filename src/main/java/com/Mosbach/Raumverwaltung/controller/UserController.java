@@ -1,13 +1,13 @@
 package com.Mosbach.Raumverwaltung.controller;
 
-import com.Mosbach.Raumverwaltung.domain.IntBoolHelper;
+import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
+import com.Mosbach.Raumverwaltung.DAO.UserDao;
 import com.Mosbach.Raumverwaltung.domain.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -40,19 +40,19 @@ public class UserController {
 		 */
 //		todo: was passiert wenn ich beim admin einen String übergebe? Prüfen und ggf. beheben
 		boolean booladmin = IntBoolHelper.intToBool(admin);
-		return User.createUser(firstName, lastName, mail, userName, booladmin, password);
+		return UserDao.createUser(firstName, lastName, mail, userName, booladmin, password);
 	}
 	
 //	READ
 	@RequestMapping(method = RequestMethod.GET, path = "/getUser")
 	public User getUser(@RequestParam(value = "id", defaultValue = "1") int id) {
-		return User.getUserById(id);
+		return UserDao.getUserById(id);
 	}
 	
 //	READ ALL
 	@RequestMapping(method = RequestMethod.GET, path = "/getUsers")
 	public List<User> getUsers() {
-		return User.getUsers();
+		return UserDao.getUsers();
 	}
 	
 	
@@ -68,7 +68,7 @@ public class UserController {
 //		todo: was passiert wenn ich beim admin einen String übergebe? Prüfen und ggf. beheben
 		boolean booladmin = IntBoolHelper.intToBool(admin);
 		
-		return User.updateUser(id, firstName, lastName, mail, userName, booladmin, password);
+		return UserDao.updateUser(id, firstName, lastName, mail, userName, booladmin, password);
 	}
 	
 	
