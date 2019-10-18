@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 public class BookingController {
 
+//	todo: testen
 //	CREATE
 	@RequestMapping(method = RequestMethod.POST, path = "/createBooking")
 	public Booking createBooking(@RequestParam(value = "userId", required = true) Integer userId,
@@ -54,12 +55,14 @@ public class BookingController {
 				endLocalDate);
 	}
 
+//	todo: testen
 //	READ
 	@RequestMapping(method = RequestMethod.GET, path = "/getBooking")
 	public Booking getBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId){
 		return BookingDao.getBookingById(bookingId);
 	}
 
+//	todo: testen
 	//	UPDATE
 	@RequestMapping(method = RequestMethod.PUT, path = "/updateBooking")
 	public Booking updateBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId,
