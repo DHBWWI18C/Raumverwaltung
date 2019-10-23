@@ -9,10 +9,7 @@ import com.Mosbach.Raumverwaltung.domain.Booking;
 import com.Mosbach.Raumverwaltung.domain.Room;
 import com.Mosbach.Raumverwaltung.domain.Status;
 import com.Mosbach.Raumverwaltung.domain.User;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class BookingController {
 
 //	todo: testen

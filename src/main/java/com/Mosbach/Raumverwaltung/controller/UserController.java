@@ -3,14 +3,12 @@ package com.Mosbach.Raumverwaltung.controller;
 import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
 import com.Mosbach.Raumverwaltung.DAO.UserDao;
 import com.Mosbach.Raumverwaltung.domain.User;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 	
 //	CREATE

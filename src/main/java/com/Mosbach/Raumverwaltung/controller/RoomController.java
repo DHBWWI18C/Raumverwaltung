@@ -5,10 +5,7 @@ import com.Mosbach.Raumverwaltung.DAO.BookingDao;
 import com.Mosbach.Raumverwaltung.DAO.RoomDao;
 import com.Mosbach.Raumverwaltung.domain.*;
 import com.Mosbach.Raumverwaltung.DAO.RoomsizeDao;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.annotation.Retention;
 import java.time.LocalDate;
@@ -19,6 +16,7 @@ import java.util.List;
 import static com.Mosbach.Raumverwaltung.controller.BookingController.checkAvailability;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class RoomController {
 
 //	CREATE
