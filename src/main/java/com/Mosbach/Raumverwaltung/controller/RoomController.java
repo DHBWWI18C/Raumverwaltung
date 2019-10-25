@@ -20,6 +20,7 @@ import static com.Mosbach.Raumverwaltung.controller.BookingController.checkAvail
 public class RoomController {
 
 //	CREATE
+//	todo: noch ohne PicturePath / Rückmeldung falls du das machst
 	@RequestMapping(method = RequestMethod.POST, path = "/createRoom")
 	public Room createRoom(@RequestParam(value = "sizeId", required = true) Integer sizeId,
 						   @RequestParam(value = "beamerAvailable", required = true) Integer beamerAvailable,
@@ -73,7 +74,8 @@ public class RoomController {
 	}
 	
 //	UPDATE
-//	todo: testen!
+//	todo: testen, muss noch um den PicturePath erweitert werden, kannst du machen wenn du willst musst du aber nicht!
+//	todo: falls du hier ran gehst gib bitte kurz bescheid weil sonst mach ichs
 	@RequestMapping(method = RequestMethod.POST, path = "/updateRoom")
 	public Room createRoom(@RequestParam(value = "id", required = true) Integer id,
 						   @RequestParam(value = "sizeId", required = false) Integer sizeId,

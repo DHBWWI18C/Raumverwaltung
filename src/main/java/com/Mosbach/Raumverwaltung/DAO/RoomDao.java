@@ -13,7 +13,7 @@ import java.util.List;
 
 public class RoomDao {
 	
-	public static Room createRoom(Roomsize roomsize, boolean beamerAvailable, int price, String info, String name) {
+	public static Room createRoom(Roomsize roomsize, boolean beamerAvailable, int price, String info, String name, String picturePath) {
 //		Sicherstellen, dass Raumname nicht schon vergeben ist
 		if (getRoomByName(name) != null) return null;
 		String sql = "INSERT into rooms (roomsize, beamerAvailable, price, infotext, name)" +
@@ -21,7 +21,8 @@ public class RoomDao {
 				"" + IntBoolHelper.boolToInt(beamerAvailable)  + ", " +
 				"" + price + ", " +
 				"'" + info + "', " +
-				"'" + name + "');";
+				"'" + name + "', " +
+				"'" + picturePath + "');";
 		
 		Connect.getResultSet(sql);
 		return getRoomByName(name);
@@ -60,13 +61,15 @@ public class RoomDao {
 		return Room.buildRoomFromResultSet(Connect.getResultSet(sql));
 	}
 	
-	public static Room updateRoom(int id, Roomsize roomsize, boolean beamerAvailable, int price, String info, String name){
+//	todo hendrik/Kadda: vermutlich fehlerhaft, sieht nicht nach gültigem String aus
+	public static Room updateRoom(int id, Roomsize roomsize, boolean beamerAvailable, int price, String info, String name, String picturePath){
 		String sql = "UPDATE rooms " +
 				"SET roomsize =  '" + roomsize.getId() +
 				"', beamerAvailable = '" + beamerAvailable +
 				"', price = '" + price +
 				"', info = '" + info +
 				"', name = " + name +
+				"', picturePath = " + picturePath +
 				"' WHERE id = " + id + ";";
 		Connect.getResultSet(sql);
 		return getRoomById(id);

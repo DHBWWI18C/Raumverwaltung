@@ -13,14 +13,16 @@ public class Room {
 	private int price;
 	private String info;
 	private String name;
+	private String picturePath;
 	
-	private Room(int id, Roomsize roomsize, boolean beamerAvailable, int price, String info, String name) {
+	private Room(int id, Roomsize roomsize, boolean beamerAvailable, int price, String info, String name, String picturePath) {
 		this.id = id;
 		this.roomsize = roomsize;
 		this.beamerAvailable = beamerAvailable;
 		this.price = price;
 		this.info = info;
 		this.name = name;
+		this.picturePath = picturePath;
 	}
 	
 	public static Room buildRoomFromResultSet(ResultSet resultSet){
@@ -32,7 +34,8 @@ public class Room {
 					IntBoolHelper.intToBool(resultSet.getInt(3)),
 					resultSet.getInt(4),
 					resultSet.getString(5),
-					resultSet.getString(6));
+					resultSet.getString(6),
+					resultSet.getString(7));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -72,5 +75,9 @@ public class Room {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public String getPicturePath() {
+		return picturePath;
 	}
 }
