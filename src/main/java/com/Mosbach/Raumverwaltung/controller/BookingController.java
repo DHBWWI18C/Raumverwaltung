@@ -22,6 +22,10 @@ public class BookingController {
 
 //	todo: testen
 //	CREATE
+//	todo: id automatisch ziehen aus der Session siehe loginController
+//	für alle Sachen wo beim create ein User benötigt wird
+//	den bisherigen Teil mit den Usern bitte nur auskommentieren, hier muss mit Luca noch mal abgestimmt werden
+//	andere möglichkeit wäre nämlich, das so zu lassen wie es jetzt ist da der User auch noch in einer Frontend Session gespeichert ist und von da bei jedem Aufruf mitübertragen werden kann
 	@RequestMapping(method = RequestMethod.POST, path = "/createBooking")
 	public Booking createBooking(@RequestParam(value = "userId", required = true) Integer userId,
 								 @RequestParam(value = "roomId", required = true) Integer roomId,
@@ -113,6 +117,7 @@ public class BookingController {
 				endLocalDate);
 	}
 	
+//	todo: Endpunkt einrichten hieraus
 	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
 //		todo: funktioniert nicht wenn endDate vor startDate liegt
 		if (startDate == null && endDate == null) return true;

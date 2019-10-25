@@ -9,15 +9,17 @@ import javax.servlet.http.HttpSession;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
-	
-	@RequestMapping(method = RequestMethod.POST, path = "/auth")
-	public boolean checkUserLoginData(@RequestParam(value = "userName", required = true) String name,
+
+//	todo hendrik: api abklären ob es nicht sinnvoller ist den User zu übertragen
+	@PostMapping(path = "/auth")
+	public boolean checkUserLoginData(@RequestParam(value = "username", required = true) String name,
 									  @RequestParam(value = "password", required = true) String password,
 									  HttpSession session) {
 		User user = UserDao.getUserByUserName(name);
 		System.out.println("Anfrage:" +
 				"\nUser: " + user +
 				"\nPassword: " + password + "\n");
+		
 		if (user == null) return false;
 		if (user.getPassword().equals(password)) {
 			session.setAttribute("user", user.getId());
