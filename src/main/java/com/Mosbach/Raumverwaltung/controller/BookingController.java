@@ -27,14 +27,15 @@ public class BookingController {
 //	den bisherigen Teil mit den Usern bitte nur auskommentieren, hier muss mit Luca noch mal abgestimmt werden
 //	andere möglichkeit wäre nämlich, das so zu lassen wie es jetzt ist da der User auch noch in einer Frontend Session gespeichert ist und von da bei jedem Aufruf mitübertragen werden kann
 	@RequestMapping(method = RequestMethod.POST, path = "/createBooking")
-	public Booking createBooking(@RequestParam(value = "userId", required = true) Integer userId,
-								 @RequestParam(value = "roomId", required = true) Integer roomId,
-								 @RequestParam(value = "price", required = true) Integer price,
-								 @RequestParam(value = "wifi", required = true) Integer wifi,
-								 @RequestParam(value = "food", required = true) Integer food,
-								 @RequestParam(value = "statusId", required = false, defaultValue = "1") Integer statusId,
+	public Booking createBooking(
+	               @RequestParam(value = "userId",    required = true) Integer userId,
+								 @RequestParam(value = "roomId",    required = true) Integer roomId,
+								 @RequestParam(value = "price",     required = true) Integer price,
+								 @RequestParam(value = "wifi",      required = true) Integer wifi,
+								 @RequestParam(value = "food",      required = true) Integer food,
+								 @RequestParam(value = "statusId",  required = false, defaultValue = "1") Integer statusId,
 								 @RequestParam(value = "startDate", required = true) String startDate,
-								 @RequestParam(value = "endDate", required = true) String endDate){
+								 @RequestParam(value = "endDate",   required = true) String endDate){
 		Room room = RoomDao.getRoomById(roomId);
 		LocalDate startLocalDate = null;
 		LocalDate endLocalDate = null;
@@ -118,6 +119,8 @@ public class BookingController {
 	}
 	
 //	todo: Endpunkt einrichten hieraus
+  //liefert true zurück, wenn der Raum verfügbar ist
+  //deswegen normalerweise !checkAvailability und dann ggf. aussteigen
 	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
 //		todo: funktioniert nicht wenn endDate vor startDate liegt
 		if (startDate == null && endDate == null) return true;

@@ -24,7 +24,7 @@ public class BookingDao {
 		ResultSet resultSet = Connect.getResultSet(sql);
 		return Booking.buildBookingFromNResulutSet(resultSet);
 	}
-	
+
 	public static List<Booking> getBookings(String sql){
 		List<Booking> bookingList = new ArrayList<>();
 		ResultSet resultSet = Connect.getResultSet(sql);
@@ -37,21 +37,22 @@ public class BookingDao {
 		}
 		return bookingList;
 	}
-	
+
+	//ISO_LOCAL_DATE: yyyy-mm-dd, einheitlich
 	public static Booking createBooking(User user, Room room, int price, boolean wifi, boolean food, Status status, LocalDate startDate, LocalDate endDate) {
 		if (UserDao.getUserById(user.getId()) == null) return null;
 		if (RoomDao.getRoomById(room.getId()) == null) return null;
 		if (StatusDao.getStatusById(status.getId()) == null) return null;
-		if (BookingController.checkAvailability(room, startDate, endDate)) return null;
-		String sql = "INSERT into bookings (user, room, price, wifi, food, status)" +
+		if (!BookingController.checkAvailability(room, startDate, endDate)) return null;
+		String sql = "INSERT into bookings (user, room, price, wifi, food, status, startDate, endDate)" +
 				"VALUES (" + user.getId() + ", " +
 				"" + room.getId()  + ", " +
 				"" + price + ", " +
 				"" + IntBoolHelper.boolToInt(wifi) + ", " +
 				"" + IntBoolHelper.boolToInt(food) + "," +
 				"" + status.getId() + ", " +
-				"" + startDate.format(DateTimeFormatter.BASIC_ISO_DATE) + ", " +
-				"" + endDate.format(DateTimeFormatter.BASIC_ISO_DATE) + ");";
+				"'" + startDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + "', " +
+				"'" + endDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + "');";
 		
 		Connect.getResultSet(sql);
 		return getBooking("SELECT * FROM bookings " +
