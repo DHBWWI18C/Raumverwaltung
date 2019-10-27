@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class BookingController {
 
-//	todo: testen
+
 //	CREATE
 //	todo: id automatisch ziehen aus der Session siehe loginController
 //	für alle Sachen wo beim create ein User benötigt wird
