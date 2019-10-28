@@ -12,7 +12,7 @@ import java.util.List;
 public class UserController {
 	
 //	CREATE
-	@RequestMapping(method = RequestMethod.POST, path = "/createUser")
+	@RequestMapping(method = RequestMethod.POST, path = "/user")
 	public User createUser(@RequestParam(value = "firstName", required = true) String firstName,
 						   @RequestParam(value = "secondName", required = true) String lastName,
 						   @RequestParam(value = "mail", required = true) String mail,
@@ -29,20 +29,20 @@ public class UserController {
 	}
 	
 //	READ
-	@RequestMapping(method = RequestMethod.GET, path = "/getUser")
+	@RequestMapping(method = RequestMethod.GET, path = "/user")
 	public User getUser(@RequestParam(value = "id", defaultValue = "1") int id) {
 		return UserDao.getUserById(id);
 	}
 	
 //	READ ALL
-	@RequestMapping(method = RequestMethod.GET, path = "/getUsers")
+	@RequestMapping(method = RequestMethod.GET, path = "/users")
 	public List<User> getUsers() {
 		return UserDao.getUsers();
 	}
 	
 	
 	//	UPDATE
-	@RequestMapping(method = RequestMethod.PUT, path = "/updateUser")
+	@RequestMapping(method = RequestMethod.PUT, path = "/user")
 	public User updateUser(@RequestParam(value = "id", required = true) int id,
 						   @RequestParam(value = "firstName", required = true) String firstName,
 						   @RequestParam(value = "secondName", required = true) String lastName,

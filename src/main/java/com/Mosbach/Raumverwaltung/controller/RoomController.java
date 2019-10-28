@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.Mosbach.Raumverwaltung.controller.BookingController.checkAvailability;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -34,13 +33,13 @@ public class RoomController {
 
 
   //	READ
-  @RequestMapping(method = RequestMethod.GET, path = "/getRoom")
+  @RequestMapping(method = RequestMethod.GET, path = "/room")
   public Room getRoom(@RequestParam(value = "id", defaultValue = "1") int id) {
     return RoomDao.getRoomById(id);
   }
 
   //	READ ROOMS
-  @RequestMapping(method = RequestMethod.GET, path = "getRooms")
+  @RequestMapping(method = RequestMethod.GET, path = "/rooms")
   public List<Room> getRooms(@RequestParam(value = "roomSize", required = false) Integer roomSize,
                              @RequestParam(value = "beamer", required = false) Integer beamer,
                              @RequestParam(value = "priceMax", required = false) Integer priceMax,
@@ -66,7 +65,7 @@ public class RoomController {
       if ((roomSize == null || RoomsizeDao.getRoomsizeById(roomSize).equals(room.getRoomsize())) &&
         (beamer == null || IntBoolHelper.intToBool(beamer) == room.getBeamerAvailable()) &&
         (priceMax == null || priceMax >= room.getPrice()) &&
-        (checkAvailability(room, startLocalDate, endLocalDate))) {
+        (BookingController.checkAvailability(room, startLocalDate, endLocalDate))) {
         filterdRooms.add(room);
       }
     }
@@ -75,7 +74,7 @@ public class RoomController {
 
   //	UPDATE
 //	todo: testen
-  @RequestMapping(method = RequestMethod.POST, path = "/updateRoom")
+  @RequestMapping(method = RequestMethod.POST, path = "/room")
   public Room createRoom(@RequestParam(value = "id", required = true) Integer id,
                          @RequestParam(value = "sizeId", required = false) Integer sizeId,
                          @RequestParam(value = "beamerAvailable", required = false) Integer beamerAvailable,

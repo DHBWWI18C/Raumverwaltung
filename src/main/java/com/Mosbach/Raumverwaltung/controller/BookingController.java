@@ -26,9 +26,8 @@ public class BookingController {
 //	für alle Sachen wo beim create ein User benötigt wird
 //	den bisherigen Teil mit den Usern bitte nur auskommentieren, hier muss mit Luca noch mal abgestimmt werden
 //	andere möglichkeit wäre nämlich, das so zu lassen wie es jetzt ist da der User auch noch in einer Frontend Session gespeichert ist und von da bei jedem Aufruf mitübertragen werden kann
-	@RequestMapping(method = RequestMethod.POST, path = "/createBooking")
-	public Booking createBooking(
-	               @RequestParam(value = "userId",    required = true) Integer userId,
+	@RequestMapping(method = RequestMethod.POST, path = "/booking")
+	public Booking createBooking(@RequestParam(value = "userId",    required = true) Integer userId,
 								 @RequestParam(value = "roomId",    required = true) Integer roomId,
 								 @RequestParam(value = "price",     required = true) Integer price,
 								 @RequestParam(value = "wifi",      required = true) Integer wifi,
@@ -60,14 +59,14 @@ public class BookingController {
 
 //	todo: testen
 //	READ
-	@RequestMapping(method = RequestMethod.GET, path = "/getBooking")
+	@RequestMapping(method = RequestMethod.GET, path = "/booking")
 	public Booking getBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId){
 		return BookingDao.getBookingById(bookingId);
 	}
 
 //	todo: testen
 	//	UPDATE
-	@RequestMapping(method = RequestMethod.PUT, path = "/updateBooking")
+	@RequestMapping(method = RequestMethod.PUT, path = "/booking")
 	public Booking updateBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId,
 								 @RequestParam(value = "userId", required = false) Integer userId,
 								 @RequestParam(value = "roomId", required = false) Integer roomId,
@@ -117,6 +116,8 @@ public class BookingController {
 				startLocalDate,
 				endLocalDate);
 	}
+	
+	// TODO: 28.10.2019  Endpunkt um alle Buchungen zurück zu geben
 	
 //	todo: Endpunkt einrichten hieraus
   //liefert true zurück, wenn der Raum verfügbar ist
