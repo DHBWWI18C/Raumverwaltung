@@ -19,7 +19,7 @@ import java.util.List;
 public class RoomController {
 
   //	CREATE
-  @RequestMapping(method = RequestMethod.POST, path = "/createRoom")
+  @RequestMapping(method = RequestMethod.POST, path = "/room")
   public Room createRoom(@RequestParam(value = "sizeId", required = true) Integer sizeId,
                          @RequestParam(value = "beamerAvailable", required = true) Integer beamerAvailable,
                          @RequestParam(value = "price", required = true) Integer price,
@@ -34,7 +34,7 @@ public class RoomController {
 
   //	READ
   @RequestMapping(method = RequestMethod.GET, path = "/room")
-  public Room getRoom(@RequestParam(value = "id", defaultValue = "1") int id) {
+  public Room getRoom(@RequestParam(value = "id", required = true) Integer id) {
     return RoomDao.getRoomById(id);
   }
 
@@ -74,7 +74,7 @@ public class RoomController {
 
   //	UPDATE
 //	todo: testen
-  @RequestMapping(method = RequestMethod.POST, path = "/room")
+  @RequestMapping(method = RequestMethod.PUT, path = "/room")
   public Room createRoom(@RequestParam(value = "id", required = true) Integer id,
                          @RequestParam(value = "sizeId", required = false) Integer sizeId,
                          @RequestParam(value = "beamerAvailable", required = false) Integer beamerAvailable,

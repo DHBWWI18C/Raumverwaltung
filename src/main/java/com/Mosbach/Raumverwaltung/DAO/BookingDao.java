@@ -24,6 +24,16 @@ public class BookingDao {
 		ResultSet resultSet = Connect.getResultSet(sql);
 		return Booking.buildBookingFromNResulutSet(resultSet);
 	}
+	
+	public static List<Booking> getBookingsByUserId(int userId){
+		String sql = "SELECT * from bookings WHERE user = " + userId + ";";
+		return getBookings(sql);
+	}
+	
+	public static List<Booking> getBookingsByRoomId(int rooId){
+		String sql = "SELECT * from bookings WHERE room = " + rooId + ";";
+		return getBookings(sql);
+	}
 
 	public static List<Booking> getBookings(String sql){
 		List<Booking> bookingList = new ArrayList<>();
@@ -60,5 +70,5 @@ public class BookingDao {
 				"FROM bookings);");
 	}
 	
-	
+//	todo: updateBooking nachliefern
 }

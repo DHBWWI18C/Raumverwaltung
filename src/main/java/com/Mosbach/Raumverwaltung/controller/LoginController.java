@@ -33,6 +33,7 @@ public class LoginController {
 	
 	@RequestMapping(method = RequestMethod.POST, path = "/logout")
 	public void logout(HttpSession session) {
+		System.out.println("SessionUser: " + session.getAttribute("user"));
 		session.removeAttribute("user");
 	}
 	

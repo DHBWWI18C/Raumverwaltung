@@ -5,6 +5,7 @@ import com.Mosbach.Raumverwaltung.DAO.UserDao;
 import com.Mosbach.Raumverwaltung.domain.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,9 @@ public class UserController {
 	
 //	READ
 	@RequestMapping(method = RequestMethod.GET, path = "/user")
-	public User getUser(@RequestParam(value = "id", defaultValue = "1") int id) {
+	public User getUser(@RequestParam(value = "id", required = false) Integer id,
+						HttpSession session) {
+		if (id == null) id = (Integer) session.getAttribute("user");
 		return UserDao.getUserById(id);
 	}
 	
