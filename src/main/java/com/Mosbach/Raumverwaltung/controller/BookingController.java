@@ -9,7 +9,9 @@ import com.Mosbach.Raumverwaltung.domain.Booking;
 import com.Mosbach.Raumverwaltung.domain.Room;
 import com.Mosbach.Raumverwaltung.domain.Status;
 import com.Mosbach.Raumverwaltung.domain.User;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -40,7 +42,7 @@ public class BookingController {
 		LocalDate startLocalDate = null;
 		LocalDate endLocalDate = null;
 	
-	//		Standard Localdate Aufbau: 2001-01-01
+	//		Standard Localdate Aufbau: 2001.01.01
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 		if (startDate != null) startLocalDate = LocalDate.parse(startDate, formatter);
 		if (endDate != null) endLocalDate = LocalDate.parse(endDate, formatter);
@@ -58,7 +60,56 @@ public class BookingController {
 				endLocalDate);
 	}
 
-//	todo: testen
+  @RequestMapping(method = RequestMethod.GET, path = "/price")
+  public String fullPrice(
+    @RequestParam(value = "startDate",  required = true) String startDate,
+    @RequestParam(value = "endDate",    required = true) String endDate,
+    @RequestParam(value = "roomId",     required = true) Integer roomId,
+    @RequestParam(value = "food",       required = true) Integer food,
+    @RequestParam(value = "wifi",       required = true) Integer wifi) {
+
+	  if (startDateBeforeEndDate(startDate, endDate)) {
+	    int duration = bookingDuration(startDate, endDate);
+	    Room room = RoomDao.getRoomById(roomId);
+	    int roomPerDay = room.getPrice();
+	    int roomPrice = roomPerDay * duration;
+	    int wifiPerDay = 15;
+      int foodPerDay = 50;
+      int totalWifiPrice = 0;
+      int totalFoodPrice = 0;
+
+	    if (wifi == 1) {
+        totalWifiPrice = wifiPerDay * duration;
+      }
+	    else if (wifi == 0) {
+	      totalWifiPrice = 0;
+      }
+      if (food == 1) {
+        totalFoodPrice = foodPerDay * duration;
+      }
+      else if (food == 0) {
+        totalFoodPrice = 0;
+      }
+
+      //Todo: JSON-Objekt erzeugen
+	    int fullPrice = totalFoodPrice + totalWifiPrice + roomPrice;
+	    String json = "{ price: " +
+        "{" +
+        "gesamtPreis" + " : "  + fullPrice + " , " +
+        "wifiPrice"   + " : "  + totalWifiPrice + " , " +
+        "foodPrice"   + " : "  + totalFoodPrice + " , " +
+        "roomPrice"   + " : "  + roomPrice +
+        "}" +
+        "}";
+
+	    return json;
+    }
+	  else {
+      return null;
+    }
+  }
+
+
 //	READ
 	@RequestMapping(method = RequestMethod.GET, path = "/getBooking")
 	public Booking getBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId){
@@ -66,7 +117,7 @@ public class BookingController {
 	}
 
 //	todo: testen
-	//	UPDATE
+//	UPDATE
 	@RequestMapping(method = RequestMethod.PUT, path = "/updateBooking")
 	public Booking updateBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId,
 								 @RequestParam(value = "userId", required = false) Integer userId,
@@ -117,31 +168,92 @@ public class BookingController {
 				startLocalDate,
 				endLocalDate);
 	}
-	
-//	todo: Endpunkt einrichten hieraus
+
+// prüft richtige Datumsreihenfolge
+	public static boolean startDateBeforeEndDate (String startDate, String endDate) {
+    LocalDate startLocalDate;
+    LocalDate endLocalDate;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    if (startDate != null && endDate != null) {
+      startLocalDate = LocalDate.parse(startDate, formatter);
+      endLocalDate = LocalDate.parse(endDate, formatter);
+    }
+    else {
+      return false;
+    }
+    // falls  = 0, liegt endDate ein Tag vor startDate
+    // muss also >0 sein, damit enddate auf dem gleichen Tag oder später liegt
+    if (startLocalDate.compareTo(endLocalDate) < 1) return true;
+    else return false;
+  }
+
+
+  public static boolean startDateBeforeEndDate (LocalDate startDate, LocalDate endDate) {
+    if (startDate == null || endDate == null) {
+      return false;
+    }
+    // falls  = 0, liegt endDate ein Tag vor startDate
+    // muss also >0 sein, damit enddate auf dem gleichen Tag oder später liegt
+    if (startDate.compareTo(endDate) < 1) return true;
+    else return false;
+  }
+
+  public int bookingDuration (String startDate, String endDate) {
+	  if (startDateBeforeEndDate(startDate, endDate)) {
+      int duration = 0;
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+      LocalDate startLocalDate;
+      LocalDate endLocalDate;
+      startLocalDate = LocalDate.parse(startDate, formatter);
+      endLocalDate = LocalDate.parse(endDate, formatter);
+      LocalDate tempDate = startLocalDate;
+
+      while (tempDate.compareTo(endLocalDate) < 1) {
+        tempDate.plusDays(1);
+        duration ++;
+      }
+	    return duration;
+    }
+	  else {
+      return 0;
+    }
+  }
+
   //liefert true zurück, wenn der Raum verfügbar ist
   //deswegen normalerweise !checkAvailability und dann ggf. aussteigen
 	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
-//		todo: funktioniert nicht wenn endDate vor startDate liegt
-		if (startDate == null && endDate == null) return true;
-		List<LocalDate> checkDays = new ArrayList<>();//Tage zwischen startDate und endDate
-		while (startDate.compareTo(endDate) < 1){
-			checkDays.add(startDate);
-			startDate = startDate.plusDays(1);
-		}
-		
-		String sql = "SELECT * from bookings WHERE room = " + room.getId() + ";";
-		List<Booking> bookingList = BookingDao.getBookings(sql);
-		for (Booking booking: bookingList) {
-			LocalDate controllDate = booking.getStartDate();
-			while (controllDate.compareTo(booking.getEndDate()) < 1){
-				if (checkDays.contains(controllDate)) return false;
-				controllDate = controllDate.plusDays(1);
-			}
-			if (checkDays.contains(booking.getEndDate())) return false;
-		}
-		
-		return true;
+    if (startDateBeforeEndDate(startDate, endDate)) {
+      if (startDate == null && endDate == null) return true;
+      List<LocalDate> checkDays = new ArrayList<>();//Tage zwischen startDate und endDate
+      while (startDate.compareTo(endDate) < 1) {
+        checkDays.add(startDate);
+        startDate = startDate.plusDays(1);
+      }
+
+      String sql = "SELECT * from bookings WHERE room = " + room.getId() + ";";
+      List<Booking> bookingList = BookingDao.getBookings(sql);
+      for (Booking booking : bookingList) {
+        LocalDate controllDate = booking.getStartDate();
+        while (controllDate.compareTo(booking.getEndDate()) < 1) {
+          if (checkDays.contains(controllDate)) return false;
+          controllDate = controllDate.plusDays(1);
+        }
+        if (checkDays.contains(booking.getEndDate())) return false;
+      }
+
+      return true;
+    }
+    //weil endDate vor StartDate liegt
+    return false;
 	}
 
+	//todo: hendrik fragen: wirft error
+  @RequestMapping(method = RequestMethod.GET, path = "/checkAvailability")
+  public boolean checkAvailability(
+         @RequestParam(value = "roomId", required = true) Integer roomId,
+         @RequestParam(value = "startDate", required = true) String startDate,
+         @RequestParam(value = "endDate", required = false) String endDate) {
+    boolean available = checkAvailability(roomId, startDate, endDate);
+    return available;
+  }
 }
