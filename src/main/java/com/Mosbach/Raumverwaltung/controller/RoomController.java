@@ -40,7 +40,7 @@ public class RoomController {
   }
 
   //	READ ROOMS
-  @RequestMapping(method = RequestMethod.GET, path = "getRooms")
+  @RequestMapping(method = RequestMethod.GET, path = "/getRooms")
   public List<Room> getRooms(@RequestParam(value = "roomSize", required = false) Integer roomSize,
                              @RequestParam(value = "beamer", required = false) Integer beamer,
                              @RequestParam(value = "priceMax", required = false) Integer priceMax,

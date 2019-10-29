@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,15 +31,18 @@ public class BookingController {
 //	andere möglichkeit wäre nämlich, das so zu lassen wie es jetzt ist da der User auch noch in einer Frontend Session gespeichert ist und von da bei jedem Aufruf mitübertragen werden kann
 	@RequestMapping(method = RequestMethod.POST, path = "/createBooking")
 	public Booking createBooking(
-	               @RequestParam(value = "userId",    required = true) Integer userId,
-								 @RequestParam(value = "roomId",    required = true) Integer roomId,
-								 @RequestParam(value = "price",     required = true) Integer price,
-								 @RequestParam(value = "wifi",      required = true) Integer wifi,
-								 @RequestParam(value = "food",      required = true) Integer food,
-								 @RequestParam(value = "statusId",  required = false, defaultValue = "1") Integer statusId,
-								 @RequestParam(value = "startDate", required = true) String startDate,
-								 @RequestParam(value = "endDate",   required = true) String endDate){
+    @RequestParam(value = "userId",    required = true) Integer userId,
+    @RequestParam(value = "roomId",    required = true) Integer roomId,
+    @RequestParam(value = "price",     required = true) Integer price,
+    @RequestParam(value = "wifi",      required = true) Integer wifi,
+    @RequestParam(value = "food",      required = true) Integer food,
+    @RequestParam(value = "statusId",  required = false, defaultValue = "1") Integer statusId,
+    @RequestParam(value = "startDate", required = true) String startDate,
+    @RequestParam(value = "endDate",   required = true) String endDate,
+    HttpSession session){
 		Room room = RoomDao.getRoomById(roomId);
+    User user = UserDao.getUserById(userId);
+    session.setAttribute("user", user.getId());
 		LocalDate startLocalDate = null;
 		LocalDate endLocalDate = null;
 	
@@ -221,12 +225,21 @@ public class BookingController {
 
   //liefert true zurück, wenn der Raum verfügbar ist
   //deswegen normalerweise !checkAvailability und dann ggf. aussteigen
-	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
-    if (startDateBeforeEndDate(startDate, endDate)) {
-      if (startDate == null && endDate == null) return true;
+  //todo: methode unten löschen und hieraus Endpunkt machen
+	public static boolean checkAvailability (
+      @RequestParam(value = "roomId", required = true) Integer roomId,
+      @RequestParam(value = "startDate", required = true) String startDate,
+      @RequestParam(value = "endDate", required = true) String endDate) {){
+    Room room = RoomDao.getRoomById(roomId);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    LocalDate LocalStartDate = LocalDate.parse(startDate, formatter);
+    LocalDate LocalEndDate = LocalDate.parse(endDate, formatter);
+  }
+    if (startDateBeforeEndDate(LocalStartDate, LocalEndDate)) {
+      if (LocalStartDate == null && endDate == null) return true;
       List<LocalDate> checkDays = new ArrayList<>();//Tage zwischen startDate und endDate
       while (startDate.compareTo(endDate) < 1) {
-        checkDays.add(startDate);
+        checkDays.add(LocalStartDate);
         startDate = startDate.plusDays(1);
       }
 
@@ -246,14 +259,4 @@ public class BookingController {
     //weil endDate vor StartDate liegt
     return false;
 	}
-
-	//todo: hendrik fragen: wirft error
-  @RequestMapping(method = RequestMethod.GET, path = "/checkAvailability")
-  public boolean checkAvailability(
-         @RequestParam(value = "roomId", required = true) Integer roomId,
-         @RequestParam(value = "startDate", required = true) String startDate,
-         @RequestParam(value = "endDate", required = false) String endDate) {
-    boolean available = checkAvailability(roomId, startDate, endDate);
-    return available;
-  }
 }

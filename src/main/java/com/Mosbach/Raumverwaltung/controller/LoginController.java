@@ -12,14 +12,15 @@ public class LoginController {
 
 //	todo hendrik: api abklären ob es nicht sinnvoller ist den User zu übertragen
 	@PostMapping(path = "/auth")
-	public boolean checkUserLoginData(@RequestParam(value = "username", required = true) String name,
+	public boolean checkUserLoginData(
+	                  @RequestParam(value = "username", required = true) String name,
 									  @RequestParam(value = "password", required = true) String password,
 									  HttpSession session) {
 		User user = UserDao.getUserByUserName(name);
 		System.out.println("Anfrage:" +
 				"\nUser: " + user +
 				"\nPassword: " + password + "\n");
-		
+
 		if (user == null) return false;
 		if (user.getPassword().equals(password)) {
 			session.setAttribute("user", user.getId());
