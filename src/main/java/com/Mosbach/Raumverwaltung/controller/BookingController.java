@@ -27,6 +27,7 @@ public class BookingController {
 //	den bisherigen Teil mit den Usern bitte nur auskommentieren, hier muss mit Luca noch mal abgestimmt werden
 //	andere möglichkeit wäre nämlich, das so zu lassen wie es jetzt ist da der User auch noch in einer Frontend Session gespeichert ist und von da bei jedem Aufruf mitübertragen werden kann
 	@RequestMapping(method = RequestMethod.POST, path = "/booking")
+//	// TODO: 28.10.2019 hendrik: preis aus kaddas preis methode ziehen ud nicht als para 
 	public Booking createBooking(@RequestParam(value = "userId",    required = true) Integer userId,
 								 @RequestParam(value = "roomId",    required = true) Integer roomId,
 								 @RequestParam(value = "price",     required = true) Integer price,
