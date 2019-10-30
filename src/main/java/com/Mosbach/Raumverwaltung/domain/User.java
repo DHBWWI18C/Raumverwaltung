@@ -1,5 +1,6 @@
 package com.Mosbach.Raumverwaltung.domain;
 
+import com.Mosbach.Raumverwaltung.DAO.UserDao;
 import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
 
 import java.sql.ResultSet;
@@ -80,5 +81,12 @@ public class User {
 	
 	public String getPassword() {
 		return password;
+	}
+	
+	public static User identifyUserByToken(Token token){
+		if (token.isValid()){
+			return UserDao.getUserById(token.getUserId());
+		}
+		else return null;
 	}
 }

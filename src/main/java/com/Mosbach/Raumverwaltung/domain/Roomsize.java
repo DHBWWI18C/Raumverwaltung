@@ -1,18 +1,15 @@
 package com.Mosbach.Raumverwaltung.domain;
 
-import com.Mosbach.Raumverwaltung.Helper.Connect;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class Roomsize {
 	private int id;
-	private String size;
+	private String title;
 	
-	private Roomsize(int id, String size) {
+	private Roomsize(int id, String title) {
 		this.id = id;
-		this.size = size;
+		this.title = title;
 	}
 	
 	public static Roomsize buildRoomsizeFromResultSet(ResultSet resultSet){
@@ -31,7 +28,7 @@ public class Roomsize {
 	public String toString() {
 		return "Roomsize{" +
 				"id=" + id +
-				", size='" + size + '\'' +
+				", size='" + title + '\'' +
 				'}';
 	}
 	
@@ -39,8 +36,8 @@ public class Roomsize {
 		return id;
 	}
 	
-	public String getSize() {
-		return size;
+	public String getTitle() {
+		return title;
 	}
 	
 	@Override
@@ -49,7 +46,7 @@ public class Roomsize {
 		if (!(o instanceof Roomsize)) return false;
 		Roomsize roomsize = (Roomsize) o;
 		return id == roomsize.id &&
-				size.equals(roomsize.size);
+				title.equals(roomsize.title);
 	}
 	
 }

@@ -41,7 +41,7 @@ public class RoomController {
   //	READ ROOMS
   @RequestMapping(method = RequestMethod.GET, path = "/rooms")
   public List<Room> getRooms(@RequestParam(value = "roomSize", required = false) Integer roomSize,
-                             @RequestParam(value = "beamer", required = false) Integer beamer,
+                             @RequestParam(value = "beamerAvailable", required = false) Integer beamer,
                              @RequestParam(value = "priceMax", required = false) Integer priceMax,
                              @RequestParam(value = "startDate", required = false) String startDate,
                              @RequestParam(value = "endDate", required = false) String endDate){
@@ -52,8 +52,8 @@ public class RoomController {
 
 //		Standard Localdate Aufbau: 2001-01-01
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    if (startDate != null) startLocalDate = LocalDate.parse(startDate, formatter);
-    if (endDate != null) endLocalDate = LocalDate.parse(endDate, formatter);
+    if (startDate != null && !startDate.equals("") ) startLocalDate = LocalDate.parse(startDate, formatter);
+    if (endDate != null && !endDate.equals("")) endLocalDate = LocalDate.parse(endDate, formatter);
 
 //		Es wird ein start und endDate benötigt, wenn eines null ist wird der Wert des anderen hierfür übernommen
     if (startLocalDate != null || endLocalDate != null){

@@ -1,15 +1,8 @@
 package com.Mosbach.Raumverwaltung.controller;
 
-import com.Mosbach.Raumverwaltung.DAO.BookingDao;
-import com.Mosbach.Raumverwaltung.DAO.RoomDao;
-import com.Mosbach.Raumverwaltung.DAO.StatusDao;
-import com.Mosbach.Raumverwaltung.DAO.UserDao;
+import com.Mosbach.Raumverwaltung.DAO.*;
 import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
-import com.Mosbach.Raumverwaltung.domain.Booking;
-import com.Mosbach.Raumverwaltung.domain.Room;
-import com.Mosbach.Raumverwaltung.domain.Status;
-import com.Mosbach.Raumverwaltung.domain.User;
-import com.fasterxml.jackson.datatype.jsr310.ser.DurationSerializer;
+import com.Mosbach.Raumverwaltung.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -26,14 +19,18 @@ public class BookingController {
 
 //	CREATE
 	@RequestMapping(method = RequestMethod.POST, path = "/booking")
-	public Booking createBooking(@RequestParam(value = "roomId",    required = true) Integer roomId,
-								 @RequestParam(value = "price",     required = true) Integer price,
+	public Booking createBooking(@RequestParam(value = "token", 	required = true) String tokenString,
+								 @RequestParam(value = "price", 	required = true) Integer price,
+								 @RequestParam(value = "roomId",    required = true) Integer roomId,
 								 @RequestParam(value = "wifi",      required = true) Integer wifi,
 								 @RequestParam(value = "food",      required = true) Integer food,
 								 @RequestParam(value = "statusId",  required = false, defaultValue = "1") Integer statusId,
 								 @RequestParam(value = "startDate", required = true) String startDate,
-								 @RequestParam(value = "endDate",   required = true) String endDate,
-								 HttpSession session){
+								 @RequestParam(value = "endDate",   required = true) String endDate){
+		User user;
+		Token token = TokenDao.getTokenFromTokenString(tokenString);
+		if (!token.isValid()) return null;
+		user = UserDao.getUserById(token.getUserId());
 		Room room = RoomDao.getRoomById(roomId);
 		LocalDate startLocalDate = null;
 		LocalDate endLocalDate = null;
@@ -45,7 +42,7 @@ public class BookingController {
 		if (!checkAvailability(room, startLocalDate, endLocalDate)) return null;
 		
 		return BookingDao.createBooking(
-				UserDao.getUserById((Integer) session.getAttribute("user")),
+				user,
 				room,
 				price,
 				IntBoolHelper.intToBool(wifi),
@@ -54,7 +51,6 @@ public class BookingController {
 				startLocalDate,
 				endLocalDate);
 	}
-
 
 //	READ
 	@RequestMapping(method = RequestMethod.GET, path = "/booking")
@@ -71,7 +67,7 @@ public class BookingController {
 	//	UPDATE
 	@RequestMapping(method = RequestMethod.PUT, path = "/booking")
 	public Booking updateBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId,
-								 @RequestParam(value = "userId", required = false) Integer userId,
+								 @RequestParam(value = "token", required = true) String tokenString,
 								 @RequestParam(value = "roomId", required = false) Integer roomId,
 								 @RequestParam(value = "price", required = false) Integer price,
 								 @RequestParam(value = "wifi", required = false) Integer wifi,
@@ -79,18 +75,17 @@ public class BookingController {
 								 @RequestParam(value = "statusId", required = false, defaultValue = "1") Integer statusId,
 								 @RequestParam(value = "startDate", required = false) String startDate,
 								 @RequestParam(value = "endDate", required = false) String endDate){
+		Token token = TokenDao.getTokenFromTokenString(tokenString);
+		if (!token.isValid()) return null;
 		Booking oldBooking = BookingDao.getBookingById(bookingId);
 		Room room;
-		User user;
+		User user = UserDao.getUserById(token.getUserId());
 		Status status;
 		LocalDate startLocalDate = null;
 		LocalDate endLocalDate = null;
 		
 		if (roomId != null) room = RoomDao.getRoomById(roomId);
 		else room = oldBooking.getRoom();
-		
-		if (userId != null) user = UserDao.getUserById(userId);
-		else user = oldBooking.getUser();
 		
 		if (price == null)  price = oldBooking.getPrice();
 		if (wifi == null) wifi = IntBoolHelper.boolToInt(oldBooking.getWifi());
@@ -141,24 +136,16 @@ public class BookingController {
 			if (wifi == 1) {
 				totalWifiPrice = wifiPerDay * duration;
 			}
-			else if (wifi == 0) {
-				totalWifiPrice = 0;
-			}
 			if (food == 1) {
 				totalFoodPrice = foodPerDay * duration;
 			}
-			else if (food == 0) {
-				totalFoodPrice = 0;
-			}
 			
 			int fullPrice = totalFoodPrice + totalWifiPrice + roomPrice;
-			String json = "{\"price\":" +
-					"{" +
+			String json = "{" +
 					"\"priceSum\"" + ":"  + fullPrice + "," +
 					"\"wifiPrice\""   + ":"  + totalWifiPrice + "," +
 					"\"foodPrice\""   + ":"  + totalFoodPrice + "," +
 					"\"roomPrice\""   + ":"  + roomPrice +
-					"}" +
 					"}";
 			
 			return json;

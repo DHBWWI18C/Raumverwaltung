@@ -2,6 +2,7 @@ package com.Mosbach.Raumverwaltung.DAO;
 
 import com.Mosbach.Raumverwaltung.Helper.Connect;
 import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
+import com.Mosbach.Raumverwaltung.domain.Token;
 import com.Mosbach.Raumverwaltung.domain.User;
 
 import java.sql.ResultSet;
@@ -32,9 +33,10 @@ public class UserDao {
 				"'" + userName + "',  " +
 				"" + IntBoolHelper.boolToInt(admin) + ", " +
 				"'" + password + "');";
-		
 		Connect.getResultSet(sql);
-		return getUserByUserName(userName);
+		User user = getUserByUserName(userName);
+		TokenDao.createToken(user);
+		return user;
 	}
 	
 	public static List<User> getUsers(){
