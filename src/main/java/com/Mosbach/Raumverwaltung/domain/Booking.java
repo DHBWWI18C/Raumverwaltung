@@ -32,7 +32,6 @@ public class Booking {
 		this.endDate = endDate;
 	}
 	
-//	buildXYZfromResultset ist packageprivate
 	public static Booking buildBookingFromNResulutSet(ResultSet resultSet){
 		Booking booking = null;
 		try {

@@ -1,6 +1,7 @@
 package com.Mosbach.Raumverwaltung.DAO;
 
 import com.Mosbach.Raumverwaltung.Helper.Connect;
+import com.Mosbach.Raumverwaltung.Helper.Constants;
 import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
 import com.Mosbach.Raumverwaltung.controller.BookingController;
 import com.Mosbach.Raumverwaltung.domain.*;
@@ -14,7 +15,7 @@ public class TokenDao {
 	
 	public static Token createToken(User user) {
 		if (user == null) return null;
-		String expireTime = LocalDateTime.now().plusHours(2).toString();
+		String expireTime = LocalDateTime.now().plusHours(Constants.tokenValidTimeHours).plusMinutes(Constants.tokenValidTimeMinutes).toString();
 		String token = UUID.randomUUID().toString();
 		String sql = "Insert into tokens (userId, token, expireTime) " +
 				"VALUES (" + user.getId() + ", '" +

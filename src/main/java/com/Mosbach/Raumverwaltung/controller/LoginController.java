@@ -14,8 +14,8 @@ public class LoginController {
 
 	@PostMapping(path = "/auth")
 	public Token checkUserLoginData(@RequestParam(value = "username", required = true) String name,
-										@RequestParam(value = "password", required = true) String password,
-										HttpSession session) {
+									@RequestParam(value = "password", required = true) String password,
+									HttpSession session) {
 		User user = UserDao.getUserByUserName(name);
 		System.out.println("Anfrage:" +
 				"\nUser: " + user +

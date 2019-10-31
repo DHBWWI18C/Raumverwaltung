@@ -2,6 +2,7 @@ package com.Mosbach.Raumverwaltung.domain;
 
 import com.Mosbach.Raumverwaltung.DAO.TokenDao;
 import com.Mosbach.Raumverwaltung.DAO.UserDao;
+import com.Mosbach.Raumverwaltung.Helper.Constants;
 import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
 
 import java.sql.ResultSet;
@@ -78,7 +79,7 @@ public class Token {
 	}
 	
 	private static Token extendExpireDate(Token token){
-		TokenDao.updateToken(token.getUserId(), token.getToken(), LocalDateTime.now().plusHours(2));
+		TokenDao.updateToken(token.getUserId(), token.getToken(), LocalDateTime.now().plusHours(Constants.tokenValidTimeHours).plusMinutes(Constants.tokenValidTimeMinutes));
 		return TokenDao.getTokenFromTokenString(token.getToken());
 	}
 	

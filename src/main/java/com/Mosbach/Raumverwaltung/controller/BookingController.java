@@ -2,6 +2,7 @@ package com.Mosbach.Raumverwaltung.controller;
 
 import com.Mosbach.Raumverwaltung.DAO.*;
 import com.Mosbach.Raumverwaltung.Helper.IntBoolHelper;
+import com.Mosbach.Raumverwaltung.Helper.SimplifiedBooking;
 import com.Mosbach.Raumverwaltung.domain.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,12 +59,29 @@ public class BookingController {
 		return BookingDao.getBookingById(bookingId);
 	}
 	
+//	@RequestMapping(method = RequestMethod.GET, path = "/bookings")
+//	public List<Booking> getBookings(@RequestParam(value = "token", required = true) String tokenString){
+//		return BookingDao.getBookingsByUserId(TokenDao.getTokenFromTokenString(tokenString).getUserId());
+//	}
+	
 	@RequestMapping(method = RequestMethod.GET, path = "/bookings")
-	public List<Booking> getBookings(HttpSession session){
-		return BookingDao.getBookingsByUserId((Integer) session.getAttribute("user"));
+	public List<SimplifiedBooking> getBookings(@RequestParam(value = "token", required = true) String tokenString) {
+		int userId = TokenDao.getTokenFromTokenString(tokenString).getUserId();
+		List<SimplifiedBooking> simplifiedBookings = new ArrayList<>();
+		List<Booking> bookings = BookingDao.getBookingsByUserId(userId);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+		
+		
+		for (Booking booking : bookings){
+			String startDate = booking.getStartDate().format(formatter);
+			String endDate = booking.getEndDate().format(formatter);
+			simplifiedBookings.add(new SimplifiedBooking(booking.getId(), userId, booking.getRoom().getId(), startDate, endDate, booking.getWifi(), booking.getFood()));
+		}
+		return simplifiedBookings;
 	}
-
-	@RequestMapping(method = RequestMethod.PUT, path = "/booking")
+		
+		
+		@RequestMapping(method = RequestMethod.PUT, path = "/booking")
 	public Booking updateBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId,
 								 @RequestParam(value = "token", required = true) String tokenString,
 								 @RequestParam(value = "roomId", required = false) Integer roomId,
@@ -207,11 +225,10 @@ public class BookingController {
 	  endLocalDate = LocalDate.parse(endDate, formatter);
 	  return checkAvailability(RoomDao.getRoomById(roomId), startLocalDate, endLocalDate);
 	}
- 
 	
 	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
-		if (startDateBeforeEndDate(startDate, endDate))
-		if (startDate == null && endDate == null) return true;
+		if (startDate == null && endDate == null) return true; //Wenn keine Angaben zum Zeitpunkt existieren wird ist der Raum verfügbar
+		if (!startDateBeforeEndDate(startDate, endDate)) return false;
 		List<LocalDate> checkDays = new ArrayList<>();//Tage zwischen startDate und endDate
 		while (startDate.compareTo(endDate) < 1){
 			checkDays.add(startDate);
