@@ -70,5 +70,4 @@ public class BookingDao {
 				"FROM bookings);");
 	}
 	
-//	todo: updateBooking nachliefern
 }

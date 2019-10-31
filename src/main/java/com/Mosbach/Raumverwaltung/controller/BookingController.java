@@ -63,8 +63,6 @@ public class BookingController {
 		return BookingDao.getBookingsByUserId((Integer) session.getAttribute("user"));
 	}
 
-//	todo: testen / rausnehmen
-	//	UPDATE
 	@RequestMapping(method = RequestMethod.PUT, path = "/booking")
 	public Booking updateBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId,
 								 @RequestParam(value = "token", required = true) String tokenString,
@@ -156,7 +154,7 @@ public class BookingController {
 	}
 
 // prüft richtige Datumsreihenfolge
-	public static boolean startDateBeforeEndDate (String startDate, String endDate) {
+	private static boolean startDateBeforeEndDate(String startDate, String endDate) {
     LocalDate startLocalDate;
     LocalDate endLocalDate;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -167,7 +165,7 @@ public class BookingController {
     return startDateBeforeEndDate(startLocalDate, endLocalDate);
   }
   
-  public static boolean startDateBeforeEndDate (LocalDate startDate, LocalDate endDate) {
+  private static boolean startDateBeforeEndDate(LocalDate startDate, LocalDate endDate) {
     if (startDate == null || endDate == null) {
       return false;
     }
@@ -177,7 +175,7 @@ public class BookingController {
     else return false;
   }
 
-  public int bookingDuration (String startDate, String endDate) {
+  private int bookingDuration (String startDate, String endDate) {
 	  if (startDateBeforeEndDate(startDate, endDate)) {
       int duration = 0;
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -198,18 +196,21 @@ public class BookingController {
     }
   }
 
-//  todo hendrik: Endpunkt machen
-//  @RequestMapping(method = RequestMethod.GET, path = "isRoomAvailable")
-//  public static boolean isRoomAvailable (
-//      @RequestParam(value = "roomId", required = true) Integer roomId,
-//      @RequestParam(value = "startDate", required = true) String startDate,
-//      @RequestParam(value = "endDate", required = true) String endDate) {
-//
-//	}
+  @RequestMapping(method = RequestMethod.GET, path = "isRoomAvailable")
+  public static boolean isRoomAvailable (@RequestParam(value = "roomId", required = true) Integer roomId,
+										 @RequestParam(value = "startDate", required = true) String startDate,
+										 @RequestParam(value = "endDate", required = true) String endDate) {
+	  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+	  LocalDate startLocalDate;
+	  LocalDate endLocalDate;
+	  startLocalDate = LocalDate.parse(startDate, formatter);
+	  endLocalDate = LocalDate.parse(endDate, formatter);
+	  return checkAvailability(RoomDao.getRoomById(roomId), startLocalDate, endLocalDate);
+	}
  
 	
 	public static boolean checkAvailability (Room room, LocalDate startDate, LocalDate endDate){
-//		todo: funktioniert nicht wenn endDate vor startDate liegt
+		if (startDateBeforeEndDate(startDate, endDate))
 		if (startDate == null && endDate == null) return true;
 		List<LocalDate> checkDays = new ArrayList<>();//Tage zwischen startDate und endDate
 		while (startDate.compareTo(endDate) < 1){

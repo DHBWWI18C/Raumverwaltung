@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
 
-//	todo hendrik: api abklären ob es nicht sinnvoller ist den User zu übertragen
 	@PostMapping(path = "/auth")
 	public Token checkUserLoginData(@RequestParam(value = "username", required = true) String name,
 										@RequestParam(value = "password", required = true) String password,

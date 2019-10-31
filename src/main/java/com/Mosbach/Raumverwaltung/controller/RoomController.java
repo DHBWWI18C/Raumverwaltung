@@ -71,9 +71,7 @@ public class RoomController {
     }
     return filterdRooms;
   }
-
-  //	UPDATE
-//	todo: testen
+  
   @RequestMapping(method = RequestMethod.PUT, path = "/room")
   public Room createRoom(@RequestParam(value = "id", required = true) Integer id,
                          @RequestParam(value = "sizeId", required = false) Integer sizeId,

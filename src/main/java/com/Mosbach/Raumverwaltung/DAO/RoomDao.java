@@ -61,7 +61,6 @@ public class RoomDao {
 		return Room.buildRoomFromResultSet(Connect.getResultSet(sql));
 	}
 	
-//	todo hendrik/Kadda: vermutlich fehlerhaft, sieht nicht nach gültigem String aus
 	public static Room updateRoom(int id, Roomsize roomsize, boolean beamerAvailable, int price, String info, String name, String picturePath){
 		String sql = "UPDATE rooms " +
 				"SET roomsize =  '" + roomsize.getId() +
