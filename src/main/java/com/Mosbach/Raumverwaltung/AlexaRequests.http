@@ -74,7 +74,7 @@ Content-Type: application/json
 "timestamp": "2018-11-04T07:23:13Z",
 "locale": "en-US",
 "intent": {
-"name": "TaskReadIntent",
+"name": "TaskReadBookings",
 "confirmationStatus": "NONE"
 }
 }

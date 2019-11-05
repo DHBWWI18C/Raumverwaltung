@@ -27,7 +27,7 @@ public class AlexaController {
 			outText = outText + "Willkommen bei ihrer Raumverwaltung";
 			alexaRO = prepareResponse(alexaRO, outText, true);
 		} else {
-			if (alexaRO.getRequest().getType().equalsIgnoreCase("IntentRequest") && (alexaRO.getRequest().getIntent().getName().equalsIgnoreCase("TaskReadIntent"))) {
+			if (alexaRO.getRequest().getType().equalsIgnoreCase("IntentRequest") && (alexaRO.getRequest().getIntent().getName().equalsIgnoreCase("TaskReadBookings"))) {
 				if (token.isValid()) {
 					List<Booking> bookings = BookingDao.getBookingsByUserId(token.getUserId());
 					
