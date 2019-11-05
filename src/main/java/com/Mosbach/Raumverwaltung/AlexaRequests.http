@@ -6,12 +6,19 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
+#TODO: Zum Testen von Alexa wird ein Token benötigt um den User zu identifizieren
+#Token kann durch den oberen Befehl erzeugt werden
+#Token aus dem Ergeniss in den Link der zweiten Anfrage stecken
+
+# todo: Möglichkeit finden um das automatisiert zu machen (evtl Tests um Herrn Hartwig zu gefallen), sollt kein Hexenwerk sein
+
+
 // Using line breaks with indent
 POST http://localhost:8080/auth?username=admin&password=admin
 
 ###
 
-POST http://localhost:8080/alexa?token=ae7b520e-70ae-4647-bac4-fba3a2f63c4f
+POST http://localhost:8080/alexa?token=bd212462-0b61-46ad-a99b-849de9fbd2df
 Content-Type: application/json
 
 {

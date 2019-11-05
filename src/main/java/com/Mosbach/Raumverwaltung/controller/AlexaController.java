@@ -41,6 +41,7 @@ public class AlexaController {
 					}
 				} else outText = outText + "Leider ist ihr Login nicht mehr gültig. Bitte melden Sie sich erneut an.";
 			}
+			alexaRO = prepareResponse(alexaRO, outText, true);
 		}
 		return alexaRO;
 	}
