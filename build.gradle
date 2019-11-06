@@ -21,6 +21,7 @@ repositories {
 
 dependencies {
 	compile group:'org.xerial', name:'sqlite-jdbc', version:'3.8.11.2'
+  implementation "javax.xml.bind:jaxb-api:2.2.11"
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -21,8 +21,7 @@ public class IntentRO
         super();
     }
 
-    public IntentRO(String name)
-    {
+    public IntentRO(String name) {
         super();
         this.name = name;
     }

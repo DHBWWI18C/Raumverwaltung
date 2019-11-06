@@ -1,10 +1,9 @@
 package com.Mosbach.Raumverwaltung.Alexa;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashMap;
 import java.util.Map;
 
-@XmlRootElement
+
 public class AlexaRO
 {
     protected final static String TYPENAME = "Alexa";
@@ -51,6 +50,7 @@ public class AlexaRO
     public void setVersion(String version) {
     this.version = version;
     }
+
     public SessionRO getSession() {
     return session;
     }
@@ -58,6 +58,7 @@ public class AlexaRO
     public void setSession(SessionRO session) {
     this.session = session;
     }
+
     public ContextRO getContext() {
     return context;
     }

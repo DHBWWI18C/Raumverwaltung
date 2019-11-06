@@ -10,15 +10,13 @@
 #Token kann durch den oberen Befehl erzeugt werden
 #Token aus dem Ergeniss in den Link der zweiten Anfrage stecken
 
-# todo: Möglichkeit finden um das automatisiert zu machen (evtl Tests um Herrn Hartwig zu gefallen), sollt kein Hexenwerk sein
-
 
 // Using line breaks with indent
 POST http://localhost:8080/auth?username=admin&password=admin
 
 ###
 
-POST http://localhost:8080/alexa?token=bd212462-0b61-46ad-a99b-849de9fbd2df
+POST http://localhost:8080/alexaReadBookings?token=1d660b06-4fb2-4fa3-96f1-f2b69f4db16b
 Content-Type: application/json
 
 {
