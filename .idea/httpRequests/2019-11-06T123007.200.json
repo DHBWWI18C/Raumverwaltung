@@ -1,0 +1,16 @@
+{
+  "request": null,
+  "response": {
+    "outputSpeech": {
+      "type": "PlainText",
+      "text": "Guten Morgen! Folgende Räume stehen zur Verfügung: Raumnummer 3 , Raumgröße  Roomsize{id=1, size='klein'} Raumname  Design. Der Raumpreis beträgt  100 pro Tag. Präsentations- und Sitzungraum. Dieser Raum besticht durch seine moderne Eleganz: Lassen Sie Ihre Kreativität frei fließen - die wundervolle Aussicht wird Sie dabei unterstützen, während das Innere des Raumes den Fokus auf Ihr Meeting lenkt. Ein Beamer ist verfügbar. Raumnummer 5 , Raumgröße  Roomsize{id=3, size='groß'} Raumname  Join. Der Raumpreis beträgt  130 pro Tag. Präsentations- und Sitzungraum. In diesem Sitzungsraum wurden schon viele große Ideen besprochen - Ist Ihre die Nächste? Durch bequeme Drehstühle und einen Beamer steht nichts zwischen Ihnen und Ihrer Inspiration. Ein Beamer ist verfügbar. Raumnummer 6 , Raumgröße  Roomsize{id=2, size='mittel'} Raumname  Energize. Der Raumpreis beträgt  110 pro Tag. Sitzungraum. Die schlichte Einrichtung dieses Raums wird auch Sie in Ihren Bann ziehen: mit den starken Kontrasten und dem zurückhaltenden Farbschema wird Ihr Meeting ein Erfolg. Für diesen Raum ist kein Beamer verfügbar.Raumnummer 7 , Raumgröße  Roomsize{id=1, size='klein'} Raumname  Create. Der Raumpreis beträgt  100 pro Tag. Präsentations- und Sitzungraum. Klein aber Oho: Dieser Raum bietet zwar nur Platz für fünf Personen, die technische Ausstattung wird Sie aber zu Großem inspirieren. Lassen Sie sich überzeugen. Ein Beamer ist verfügbar. Raumnummer 8 , Raumgröße  Roomsize{id=2, size='mittel'} Raumname  Motivate. Der Raumpreis beträgt  100 pro Tag. Sitzungraum. Zugegeben, dieser Raum ist anders. Lassen Sie sich von der Natur und den im Raum enthaltenen Pflanzen inspirieren und denken Sie außerhalb des Gewöhnlichen - denn dort entstehen die besten Ideen. Für diesen Raum ist kein Beamer verfügbar.",
+      "additionalProperties": {}
+    },
+    "shouldEndSession": true,
+    "additionalProperties": {}
+  },
+  "version": "1.0",
+  "session": null,
+  "context": null,
+  "additionalProperties": {}
+}

@@ -6,9 +6,6 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-#TODO: Zum Testen von Alexa wird ein Token benötigt um den User zu identifizieren
-#Token kann durch den oberen Befehl erzeugt werden
-#Token aus dem Ergeniss in den Link der zweiten Anfrage stecken
 
 POST http://localhost:8080/alexaReadRooms
 Content-Type: application/json
