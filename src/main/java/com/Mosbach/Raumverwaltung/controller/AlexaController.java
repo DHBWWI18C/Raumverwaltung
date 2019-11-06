@@ -113,33 +113,7 @@ public class AlexaController {
     return alexaRO;
   }
 
-  //TODO: logout session/token übernehmen
-  @PostMapping(path = "/alexaLogout")
-  public AlexaRO logout(@RequestParam (value = "token") String tokenString,
-    @RequestBody AlexaRO alexaRO) {
-    String outText = begruessung;
-    Token token = TokenDao.getTokenFromTokenString(tokenString);
-    LoginController loginController = new LoginController();
 
-    if (alexaRO.getRequest().getType().equalsIgnoreCase("LaunchRequest")) {
-      outText = outText + "Willkommen bei Ihrer Raumverwaltung";
-      alexaRO = prepareResponse(alexaRO, outText, true);
-    } else {
-      if (alexaRO.getRequest().getType().equalsIgnoreCase("IntentRequest") && (alexaRO.getRequest().getIntent().getName().equalsIgnoreCase("TaskLogout"))) {
-        if (token.isValid()) {
-          //loginController.logout();
-        outText = outText + "Sie wurden erfolgreich ausgeloggt. Besuchen Sie uns bald wieder!";
-      }
-        else {
-          outText = outText + "Sie sind bereits ausgeloggt.";
-        }
-
-      }
-      alexaRO = prepareResponse(alexaRO, outText, true);
-    }
-    return alexaRO;
-  }
-	
 	private AlexaRO prepareResponse(AlexaRO alexaRO, String outText, boolean shouldEndSession) {
 		
 		alexaRO.setRequest(null);
