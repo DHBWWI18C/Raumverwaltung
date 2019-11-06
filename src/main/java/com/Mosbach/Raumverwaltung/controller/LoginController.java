@@ -1,5 +1,6 @@
 package com.Mosbach.Raumverwaltung.controller;
 
+import com.Mosbach.Raumverwaltung.DAO.TokenDao;
 import com.Mosbach.Raumverwaltung.DAO.UserDao;
 import com.Mosbach.Raumverwaltung.Helper.TokenJSON;
 import com.Mosbach.Raumverwaltung.domain.Token;
@@ -7,6 +8,7 @@ import com.Mosbach.Raumverwaltung.domain.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -32,9 +34,12 @@ public class LoginController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = "/logout")
-	public boolean logout(HttpSession session) {
+	public boolean logout(@RequestParam(value = "token") String tokenString,
+						  HttpSession session) {
 		System.out.println("SessionUser: " + session.getAttribute("user"));
 		session.removeAttribute("user");
+		Token token = TokenDao.getTokenFromTokenString(tokenString);
+		TokenDao.updateToken(token.getUserId(), token.getToken(), LocalDateTime.now());
 		return true;
 	}
 	
