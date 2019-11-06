@@ -16,7 +16,7 @@ POST http://localhost:8080/auth?username=admin&password=admin
 
 ###
 
-POST http://localhost:8080/alexaReadBookings?token=1d660b06-4fb2-4fa3-96f1-f2b69f4db16b
+POST http://localhost:8080/alexaReadBookings?token=952e3bef-239c-4bc9-9f75-130dc6facd37
 Content-Type: application/json
 
 {
